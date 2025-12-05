@@ -10,7 +10,8 @@ class Solution:
             midpoint = math.ceil(midpoint)
 
         tmp = []
-        while len(tmp) < midpoint:
+        vals_evaled = 0
+        while vals_evaled < midpoint:
             num = None
 
             if len(nums1) > 0 and len(nums2) > 0:
@@ -20,7 +21,9 @@ class Solution:
             else:
                 num = nums2.pop(0)
 
+            vals_evaled += 1
             tmp.append(num)
+            tmp = tmp[-2:]
                 
         return tmp[-1] if single_mid else (tmp[-1] + tmp[-2]) / 2
     
