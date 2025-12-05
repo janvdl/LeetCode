@@ -1,16 +1,33 @@
 class Solution:
     def countCollisions(self, directions: str) -> int:
-        count = 0
-        collisions = ["RRRRRRRRRRS", "SLLLLLLLLLL", "RS", "SL"]
+        crashes = 0
+        r_count = 0
 
-        # resolve the RL collisions so that only RS and SL collisions remain
-        count += directions.count("RL") * 2
-        directions = directions.replace("RL", "S")
+        obstacle_left = False
+        for d in directions:
+            if d == "L":
+                if r_count != 0:
+                    crashes += r_count + 1
+                    r_count = 0
+                    obstacle_left = True
+                elif obstacle_left:
+                    crashes += 1
+            elif d == "S":
+                if r_count > 0:
+                    crashes += r_count
+                    r_count = 0
 
-        while any(x in directions for x in collisions):
-            for x in collisions:
-                if x in directions:
-                    count += (len(x) - 1) * (directions.count(x))
-                    directions =  directions.replace(x, "S")
+                obstacle_left = True
+            elif d == "R":
+                r_count += 1
+
+            else:
+                print("You dun goofed")
         
-        return count
+        return crashes
+ 
+s = Solution()
+print(s.countCollisions("RLRSLL")) # 4 counts
+print(s.countCollisions("LLRR")) # 0 counts
+print(s.countCollisions("SSRSSRLLRSLLRSRSSRLRRRRLLRRLSSRR")) # 20
+print(s.countCollisions("LRLLLRSRRRSRLSSLLSSSLRSRLSRLRLRLSLRSR")) # 24
