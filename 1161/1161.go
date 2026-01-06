@@ -49,11 +49,7 @@ func maxLevelSum(root *TreeNode) int {
 }
 
 func traverseTree(node *TreeNode, depth int, levelSums map[int]int) {
-	if _, ok := levelSums[depth]; ok {
-		levelSums[depth] += node.Val
-	} else {
-		levelSums[depth] = node.Val
-	}
+	levelSums[depth] += node.Val
 
 	if node.Left != nil {
 		traverseTree(node.Left, depth+1, levelSums)
